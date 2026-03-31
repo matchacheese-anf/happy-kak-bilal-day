@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body {
+  font-family: monospace;
+  background:#0d1117;
+  color:#c9d1d9;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* CONTAINER RESPONSIVE */
+.container {
+  width:100%;
+  max-width:700px;
+  max-height:90vh;
+  background:#161b22;
+  padding:20px;
+  border-radius:12px;
+  overflow-y:auto;
+  z-index:2;
+}
+
+/* TEXT */
+h1 {
+  font-size:clamp(1.5rem, 5vw, 2.2rem);
+  text-align:center;
+}
+h2 {
+  font-size:clamp(1.2rem, 4vw, 1.6rem);
+  margin:15px 0;
+  text-align:center;
+}
+
+/* BUTTON */
+.btn {
+  background:#2ea043;
+  color:white;
+  padding:12px 20px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  margin-top:15px;
+  width:100%;
+  max-width:250px;
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.hidden { display:none; }
+
+/* TEXT BOX */
+pre {
+  white-space:pre-wrap;
+  font-size:clamp(0.9rem, 2.8vw, 1rem);
+  line-height:1.6;
+}
+
+/* BALON */
+.balloon {
+  position:absolute;
+  bottom:-120px;
+  width:clamp(30px, 8vw, 60px);
+  height:clamp(40px, 10vw, 80px);
+  border-radius:50%;
+  animation:naik linear forwards;
+}
+
+@keyframes naik {
+  from { transform:translateY(0); }
+  to { transform:translateY(-120vh); }
+}
+
+/* HP FIX (iPhone dll) */
+@media (max-width:600px){
+  body {
+    align-items:flex-start;
+    padding-top:20px;
+  }
+
+  .container {
+    max-height:85vh;
+    border-radius:10px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bg-music" loop>
+<source src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3">
+</audio>
+
+<audio id="pop-sound">
+<source src="https://www.soundjay.com/button/sounds/button-16.mp3">
+</audio>
+
+<div class="container">
+  <div id="start">
+    <h1>🎂 Happy 18th Birthday Kak Bilal</h1>
+    <button class="btn" onclick="start()">Buka Kejutan 🚀</button>
+  </div>
+
+  <div id="message" class="hidden">
+    <h2>💌 Selamat Ulang Tahun</h2>
+
+<pre>
+Kak Bilal, selamat ulang tahun ya!
+
+Selamat ulang tahun, Kak. Aku benar-benar bangga sama Kakak, serius.
+Terima kasih karena selalu jadi motivasi yang besar dan menginspirasi aku lebih dari yang Kakak sadari.
+Aku akan selalu mendukung Kakak, apapun yang terjadi
+Selamat ulang tahun!
+
+Terima kasih sudah jadi sosok yang bisa aku jadikan panutan, dan selalu memberi energi positif, bahkan mungkin tanpa Kakak sadari.
+
+Selamat atas SNBP dan UM, itu sudah luar biasa — dan apapun yang terjadi dengan STAN nanti, aku yakin Kakak akan menemukan jalan terbaik Kakak sendiri.
+
+Aku akan selalu mendukung Kakak, ya. Dan Kakak juga harus tahu kalau Kakak nggak sendirian.
+
+Semoga ulang tahunnya benar-benar menyenangkan. Kakak pantas mendapatkannya 💪✨
+</pre>
+
+    <button class="btn" onclick="launchConfetti()">🎊 Confetti Lagi</button>
+  </div>
+</div>
+
+<script>
+const music = document.getElementById("bg-music");
+const pop = document.getElementById("pop-sound");
+
+function start() {
+  document.getElementById("start").classList.add("hidden");
+  document.getElementById("message").classList.remove("hidden");
+
+  music.volume = 0.5;
+  music.play();
+
+  launchConfetti();
+  createBalloons();
+}
+
+function launchConfetti() {
+  pop.currentTime = 0;
+  pop.play();
+
+  confetti({
+    particleCount:150,
+    spread:90,
+    origin:{y:0.6}
+  });
+}
+
+function createBalloons() {
+  for (let i = 0; i < 12; i++) {
+    let b = document.createElement("div");
+    b.classList.add("balloon");
+
+    b.style.background = `hsl(${Math.random()*360},70%,60%)`;
+    b.style.left = Math.random()*100 + "vw";
+    b.style.animationDuration = (4 + Math.random()*2) + "s";
+
+    document.body.appendChild(b);
+
+    setTimeout(() => {
+      pop.currentTime = 0;
+      pop.play();
+      b.remove();
+    }, 3000 + Math.random()*2000);
+  }
+}
+</script>
+
+</body>
+</html>
